@@ -1,6 +1,7 @@
 module circuit (
     input logic clk,
     input logic rst,
+    input logic reset,
     input logic nul,
     output logic trigger
   );
@@ -16,19 +17,26 @@ module circuit (
 
   assign finished = (N - 1) == cnt;
 
-  always @ (posedge clk, negedge rst)
-  begin
-    if(~rst)
-    begin
-      trigger_ff <= 1'b0;
+  always @ (posedge clk, negedge reset) begin
+    if (~reset) begin
       nul_f <= 1'b0;
       nul_ff <= 1'b0;
+    end
+    else begin
+      nul_f <= nul;
+      nul_ff <= nul_f;
+    end
+  end
+
+  always @ (posedge clk, posedge rst)
+  begin
+    if(rst)
+    begin
+      trigger_ff <= 1'b0;
       cnt <= 8'b0;
     end
     else
     begin
-      nul_f <= nul;
-      nul_ff <= nul_f;
       trigger_ff <= finished;
       if (nul_ff)
         cnt <= 8'b0;
