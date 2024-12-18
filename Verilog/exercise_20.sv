@@ -11,7 +11,7 @@ module circuit (
   logic [7:0] counter;
   logic term;
 
-  assign term = 255 ? dir == 1 : 1;
+  assign term = 1 ? dir == 1 : 255;
 
   always @ (posedge clk, negedge reset)
   begin

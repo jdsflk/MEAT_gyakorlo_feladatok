@@ -19,7 +19,7 @@ module circuit (
   logic load_ff_2;
   logic term;
 
-  assign term = 255 ? dir == 1 : 1;
+  assign term = 1 ? dir == 1 : 255;
 
   always @ (posedge clk, negedge reset)
   begin
